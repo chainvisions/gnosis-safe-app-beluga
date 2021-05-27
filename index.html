@@ -54,6 +54,22 @@
         })
     }
  
+    function queueStrategyUpdate(vault, strategy) {
+        txs.push({
+            to: vault,
+            value: 0,
+            data: web3.contract("vault", vault).methods.announceStrategyUpdate(strategy).encodeABI(),
+        })
+    }
+
+    function updateStrategy(vault, strategy) {
+        txs.push({
+            to: vault,
+            value: 0,
+            data: web3.contract("vault", vault).methods.setStrategy(strategy).encodeABI()
+        })
+    }
+
     function setGovernance(governance) {
         txs.push({
             to: web3.storage.address,
