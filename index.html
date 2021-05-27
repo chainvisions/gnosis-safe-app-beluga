@@ -1,0 +1,108 @@
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.2.11/dist/web3.min.js"></script>
+<script src="js/index.js"></script>
+<script src="js/contracts.js"></script>
+<script src="js/web3manager.js"></script>
+<script>
+    let manager = new Web3Manager();
+
+    let sdk = initSdk();
+    window.sdk = sdk;
+    console.log(sdk);
+
+    const onSafeInfo = (safeInfo) => {
+        console.log(safeInfo);
+    };
+
+    const onTransactionConfirmation = ({ requestId, safeTxHash }) => {
+        console.log(requestId, safeTxHash);
+    };
+
+    const onTransactionRejection = ({ requestId }) => {
+        console.log(requestId);
+    };
+
+    sdk.addListeners({
+        onSafeInfo,
+        onTransactionConfirmation,
+        onTransactionRejection,
+    });
+
+    let web3 = manager.web3;
+    const txs = [];
+
+    function transfer(token, to, amount) {
+        txs.push({
+            to: token,
+            value: 0,
+            data: web3.contract("erc20", token).methods.transfer(to, amount).encodeABI(),
+        });
+    }
+
+    function queueVaultUpgrade(vault, implementation) {
+        txs.push({
+            to: vault,
+            value: 0,
+            data: web3.contract("vault", vault).methods.scheduleUpgrade(implementation).encodeABI(),
+        })
+    }
+
+    function upgradeVault(vault) {
+        txs.push({
+            to: vault,
+            value: 0,
+            data: web3.contract("vaultproxy", vault).methods.upgrade().encodeABI(),
+        })
+    }
+ 
+    function setGovernance(governance) {
+        txs.push({
+            to: web3.storage.address,
+            value: 0,
+            data: web3.storage.setGovernance(governance)
+        })
+    }
+
+    function setController(controller) {
+        txs.push({
+            to: web3.storage.address,
+            value: 0,
+            data: web3.storage.setController(controller)
+        })
+    }
+
+    function addHardWorker(hardworker) {
+        txs.push({
+            to: web3.controller.address,
+            value: 0,
+            data: web3.controller.addHardWorker(hardworker)
+        })
+    }
+
+    function removeHardWorker(hardworker) {
+        txs.push({
+            to: web3.controller.address,
+            value: 0,
+            data: web3.controller.removeHardWorker(hardworker)
+        })
+    }
+
+    function addToWhitelist(whitelisted) {
+        txs.push({
+            to: web3.controller.address,
+            value: 0,
+            data: web3.controller.addToGreylist(whitelisted)
+        })
+    }
+
+    function removeFromWhitelist(whitelisted) {
+        txs.push({
+            to: web3.controller.address,
+            value: 0,
+            data: web3.controller.removeFromGreylist(whitelisted)
+        })
+    }
+
+    // Send to Safe-multisig
+    const message = sdk.sendTransactions(txs);
+    console.log(message.requestId);    
+</script>

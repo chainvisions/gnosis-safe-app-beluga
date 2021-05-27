@@ -1,0 +1,9 @@
+{
+    "name": "BelugaSafeApp",
+    "description": "Gnosis Safe app for Beluga",
+    "iconPath": "myAppIcon.svg",
+    "providedBy": {
+        "name": "Chainvisions",
+        "url": "https://chainvisions.cool"
+    }
+}

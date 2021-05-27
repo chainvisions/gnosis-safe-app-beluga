@@ -1,0 +1,23 @@
+{
+  "name": "gnosis-safe-app-beluga",
+  "version": "1.0.0",
+  "description": "Gnosis Safe app for Beluga Protocol",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chainvisions/gnosis-safe-app-beluga.git"
+  },
+  "keywords": [],
+  "author": "Chainvisions",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chainvisions/gnosis-safe-app-beluga/issues"
+  },
+  "homepage": "https://github.com/chainvisions/gnosis-safe-app-beluga#readme",
+  "dependencies": {
+    "@gnosis.pm/safe-apps-sdk": "^3.0.0"
+  }
+}
